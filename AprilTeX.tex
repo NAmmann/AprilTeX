@@ -1,0 +1,38 @@
+% AprilTex - This is a LaTeX / TikZ based AprilTag generator
+% Copyright (C) 2018  Nikolaus Ammann
+%
+% This program is free software; you can redistribute it and/or modify
+% it under the terms of the GNU General Public License as published by
+% the Free Software Foundation; either version 2 of the License, or
+% (at your option) any later version.
+%
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+% GNU General Public License for more details.
+%
+% You should have received a copy of the GNU General Public License along
+% with this program; if not, write to the Free Software Foundation, Inc.,
+% 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+%
+\documentclass{standalone}
+%
+% Include AprilTeX internal code
+\input{AprilTeXInternals}
+%
+% Setting PDF version; this may be required by some printing companies
+\pdfminorversion=3
+%
+% Define tag size
+\newcommand{\AprilTagSize}{1000} % In mm
+\newcommand{\AprilTagBleed}{2} % In mm
+\newcommand{\AprilTagWhiteBorderScale}{1.0}
+%
+% Select the tag family
+\begin{document}
+\input{AprilTagFamily36h11}
+% \input{AprilTagFamily36h10}
+% \input{AprilTagFamily25h9}
+% \input{AprilTagFamily25h7}
+% \input{AprilTagFamily16h5}
+\end{document}

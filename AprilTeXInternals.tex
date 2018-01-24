@@ -1,0 +1,72 @@
+% AprilTex - This is a LaTeX / TikZ based AprilTag generator
+% Copyright (C) 2018  Nikolaus Ammann
+%
+% This program is free software; you can redistribute it and/or modify
+% it under the terms of the GNU General Public License as published by
+% the Free Software Foundation; either version 2 of the License, or
+% (at your option) any later version.
+%
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+% GNU General Public License for more details.
+%
+% You should have received a copy of the GNU General Public License along
+% with this program; if not, write to the Free Software Foundation, Inc.,
+% 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+%
+%
+% Include required packages
+\usepackage{tikz}
+\usepackage{ifthen}
+\standaloneenv{tikzpicture}
+%
+% Setting PDF meta data
+\usepackage[pdftex,
+            pdfauthor={Nikolaus Ammann},
+            pdftitle={AprilTags},
+            pdfsubject={},
+            pdfkeywords={},
+            pdfproducer={AprilTeX},
+            pdfcreator={AprilTeX}]{hyperref}
+%
+% Define command for printing the AprilTag defined by the parameters as part of an TikZ image.
+\newcommand{\GenerateAprilTag}[4]{%
+    %
+    % Calculate some auxillary variables
+    \pgfmathtruncatemacro{\AptilTagPayloadDimension}{sqrt(#1)};%
+    \pgfmathtruncatemacro{\AptilTagDimension}{\AptilTagPayloadDimension + 2};%
+    \pgfmathsetmacro{\AptilTagSquareSize}{\AprilTagSize / (2 * \AprilTagWhiteBorderScale + \AptilTagDimension)};%
+    \pgfmathsetmacro{\AptilTagOrigin}{\AprilTagWhiteBorderScale * \AptilTagSquareSize};%
+    \pgfmathsetmacro{\AptilTagPayloadOrigin}{\AptilTagOrigin + \AptilTagSquareSize};%
+    %
+    % Draw white background including bleed
+    \fill[white] (-\AprilTagBleed, -\AprilTagBleed) rectangle (\AprilTagSize + \AprilTagBleed, \AprilTagSize + \AprilTagBleed);%
+    %
+    % Draw black border
+    \fill[black] (\AptilTagOrigin, \AptilTagOrigin) rectangle (\AptilTagDimension * \AptilTagSquareSize + \AptilTagOrigin, \AptilTagDimension * \AptilTagSquareSize + \AptilTagOrigin);%
+    %
+    % Draw payload
+    \pgfmathtruncatemacro{\AptilTagPayloadDimensionMinusOne}{\AptilTagPayloadDimension - 1};%
+    \foreach \b [count=\i from 0] in {#4} {%
+        \pgfmathtruncatemacro{\x}{mod(\i, \AptilTagPayloadDimension)};%
+        \pgfmathtruncatemacro{\y}{\AptilTagPayloadDimension - (\i + 1) / \AptilTagPayloadDimension};%
+        \pgfmathsetmacro{\AprilTagTempCoordinateX}{\AptilTagSquareSize * \x + \AptilTagPayloadOrigin};%
+        \pgfmathsetmacro{\AprilTagTempCoordinateY}{\AptilTagSquareSize * \y + \AptilTagPayloadOrigin};%
+        \ifthenelse{\b=1} {%
+            \fill[white] (\AprilTagTempCoordinateX, \AprilTagTempCoordinateY) rectangle (\AptilTagSquareSize + \AprilTagTempCoordinateX, \AptilTagSquareSize + \AprilTagTempCoordinateY);%
+        }{}%
+    }%
+    %
+    % Put label
+    \node [rotate = 0] at (\AprilTagSize / 2, 2) {\tt \small AprilTag: Family #1h#2; ID = #3};%
+    \node [rotate = -90] at (2, \AprilTagSize / 2) {\tt \small AprilTag: Family #1h#2; ID = #3};%
+    \node [rotate = +90] at (\AprilTagSize - 2, \AprilTagSize / 2) {\tt \small AprilTag: Family #1h#2; ID = #3};%
+    \node [rotate = 180] at (\AprilTagSize / 2, \AprilTagSize - 2) {\tt \small AprilTag: Family #1h#2; ID = #3};%
+    %
+    % Draw bleed margin
+    % \fill[cyan] (-\AprilTagBleed, -\AprilTagBleed) rectangle (\AprilTagSize + \AprilTagBleed, 0);%
+    % \fill[cyan] (-\AprilTagBleed, -\AprilTagBleed) rectangle (0, \AprilTagSize + \AprilTagBleed);%
+    % \fill[cyan] (\AprilTagSize, -\AprilTagBleed) rectangle (\AprilTagSize + \AprilTagBleed, \AprilTagSize + \AprilTagBleed);%
+    % \fill[cyan] (-\AprilTagBleed, \AprilTagSize) rectangle (\AprilTagSize + \AprilTagBleed, \AprilTagSize + \AprilTagBleed);%
+}
