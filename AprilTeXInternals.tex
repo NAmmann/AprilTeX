@@ -44,7 +44,10 @@
     \fill[white] (-\AprilTagBleed, -\AprilTagBleed) rectangle (\AprilTagSize + \AprilTagBleed, \AprilTagSize + \AprilTagBleed);%
     %
     % Draw black border
-    \fill[black] (\AptilTagOrigin, \AptilTagOrigin) rectangle (\AptilTagDimension * \AptilTagSquareSize + \AptilTagOrigin, \AptilTagDimension * \AptilTagSquareSize + \AptilTagOrigin);%
+    \fill[black] (\AptilTagOrigin, \AptilTagOrigin) rectangle (\AptilTagOrigin + \AptilTagSquareSize, \AptilTagDimension * \AptilTagSquareSize + \AptilTagOrigin);%
+    \fill[black] (\AptilTagOrigin, \AptilTagOrigin) rectangle (\AptilTagDimension * \AptilTagSquareSize + \AptilTagOrigin, \AptilTagOrigin + \AptilTagSquareSize);%
+    \fill[black] (\AptilTagDimension * \AptilTagSquareSize - \AptilTagSquareSize + \AptilTagOrigin, \AptilTagOrigin) rectangle (\AptilTagDimension * \AptilTagSquareSize + \AptilTagOrigin, \AptilTagDimension * \AptilTagSquareSize + \AptilTagOrigin);%
+    \fill[black] (\AptilTagOrigin, \AptilTagDimension * \AptilTagSquareSize - \AptilTagSquareSize + \AptilTagOrigin) rectangle (\AptilTagDimension * \AptilTagSquareSize + \AptilTagOrigin, \AptilTagDimension * \AptilTagSquareSize + \AptilTagOrigin);%
     %
     % Draw payload
     \pgfmathtruncatemacro{\AptilTagPayloadDimensionMinusOne}{\AptilTagPayloadDimension - 1};%
@@ -53,9 +56,9 @@
         \pgfmathtruncatemacro{\y}{\AptilTagPayloadDimension - (\i + 1) / \AptilTagPayloadDimension};%
         \pgfmathsetmacro{\AprilTagTempCoordinateX}{\AptilTagSquareSize * \x + \AptilTagPayloadOrigin};%
         \pgfmathsetmacro{\AprilTagTempCoordinateY}{\AptilTagSquareSize * \y + \AptilTagPayloadOrigin};%
-        \ifthenelse{\b=1} {%
-            \fill[white] (\AprilTagTempCoordinateX, \AprilTagTempCoordinateY) rectangle (\AptilTagSquareSize + \AprilTagTempCoordinateX, \AptilTagSquareSize + \AprilTagTempCoordinateY);%
-        }{}%
+        \ifthenelse{\b=1} {}{%
+            \fill[black] (\AprilTagTempCoordinateX, \AprilTagTempCoordinateY) rectangle (\AptilTagSquareSize + \AprilTagTempCoordinateX, \AptilTagSquareSize + \AprilTagTempCoordinateY);%
+        }%
     }%
     %
     % Put label
